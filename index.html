@@ -107,6 +107,12 @@
     <!-- the bespoke blade S: blocky S, terminals sliced at the blade angle, slight forward lean -->
     <path id="glyphS" d="M78 12L22 12L22 58L63 58L63 73L30 73L22 88L78 88L78 42L37 42L37 27L70 27Z"
       transform="translate(50 50) skewX(-8) translate(-50 -50)"/>
+    <!-- upright variant, used where S's fuse vertically (lean would kink the joints) -->
+    <path id="glyphS0" d="M78 12L22 12L22 58L63 58L63 73L30 73L22 88L78 88L78 42L37 42L37 27L70 27Z"/>
+    <clipPath id="clipS">
+      <path d="M78 12L22 12L22 58L63 58L63 73L30 73L22 88L78 88L78 42L37 42L37 27L70 27Z"
+        transform="translate(50 50) skewX(-8) translate(-50 -50)"/>
+    </clipPath>
     <!-- two blade cuts, each crossing exactly one connector of the S: three clean pieces -->
     <mask id="triCut">
       <rect x="-20" y="-20" width="140" height="140" fill="#fff"/>
@@ -120,12 +126,139 @@
 
   <header>
     <div class="kicker">Sahir Singh Sharma</div>
-    <h1>One mark. Three S&rsquo;s. Cut in steel.</h1>
-    <p class="sub">Round two — premium only. A single bespoke letterform, machined and brushed, with the triple-S carried inside the silhouette the way Mercedes carries three points inside one star.</p>
+    <h1>Three S&rsquo;s. One piece of steel.</h1>
+    <p class="sub">Round three — the triple-S shown, not implied. The same bespoke blade S, but now three of them visibly fused into one mark: welded, interlocked, stacked, rotated. Still Mercedes-grade restraint; still brushed metal on black.</p>
   </header>
 
   <section>
-    <h2>Logo candidates — v2 · premium</h2>
+    <h2>Logo candidates — v3 · SSS</h2>
+    <div class="grid">
+
+      <div class="card">
+        <div class="tile"><svg viewBox="0 0 100 100">
+          <g filter="url(#ds)" transform="translate(50 50) scale(.44) translate(6.6 -111)">
+            <g transform="translate(3 3.8)">
+              <use href="#glyphS" fill="#141414"/>
+              <use href="#glyphS" fill="#141414" transform="translate(-56.57 61)"/>
+              <use href="#glyphS" fill="#141414" transform="translate(-113.14 122)"/>
+            </g>
+            <use href="#glyphS" fill="url(#steel)"/>
+            <use href="#glyphS" fill="url(#steel)" transform="translate(-56.57 61)"/>
+            <use href="#glyphS" fill="url(#steel)" transform="translate(-113.14 122)"/>
+            <use href="#glyphS" filter="url(#brush)" style="mix-blend-mode:overlay"/>
+            <use href="#glyphS" filter="url(#brush)" style="mix-blend-mode:overlay" transform="translate(-56.57 61)"/>
+            <use href="#glyphS" filter="url(#brush)" style="mix-blend-mode:overlay" transform="translate(-113.14 122)"/>
+            <path d="M26.77 73L16.66 88M-29.8 134L-39.91 149" stroke="#000000" stroke-opacity=".5" stroke-width="1.6"/>
+          </g>
+        </svg></div>
+        <div><div class="num">01</div><div class="name">Cascade</div></div>
+        <p>Three S&rsquo;s welded tip-to-tip — each bladed terminal docks flush into the next — one diagonal bolt of steel rising left to right. The seams are left visible: you can count three.</p>
+      </div>
+
+      <div class="card">
+        <div class="tile"><svg viewBox="0 0 100 100">
+          <g filter="url(#ds)" transform="translate(50 50) scale(.55) translate(-50 -50)">
+            <use href="#glyphS" fill="#141414" transform="translate(-33.4 3.4)"/>
+            <use href="#glyphS" fill="url(#steel)" transform="translate(-36 0)"/>
+            <use href="#glyphS" filter="url(#brush)" style="mix-blend-mode:overlay" transform="translate(-36 0)"/>
+            <use href="#glyphS" fill="#0a0b0c" stroke="#0a0b0c" stroke-width="4.5"/>
+            <use href="#glyphS" fill="#141414" transform="translate(2.6 3.4)"/>
+            <use href="#glyphS" fill="url(#steel)"/>
+            <use href="#glyphS" filter="url(#brush)" style="mix-blend-mode:overlay"/>
+            <use href="#glyphS" fill="#0a0b0c" stroke="#0a0b0c" stroke-width="4.5" transform="translate(36 0)"/>
+            <use href="#glyphS" fill="#141414" transform="translate(38.6 3.4)"/>
+            <use href="#glyphS" fill="url(#steel)" transform="translate(36 0)"/>
+            <use href="#glyphS" filter="url(#brush)" style="mix-blend-mode:overlay" transform="translate(36 0)"/>
+          </g>
+        </svg></div>
+        <div><div class="num">02</div><div class="name">Interlock</div></div>
+        <p>The monogram — three full S&rsquo;s overlapped tight, each separated by a knocked-out gap. The YSL/Gucci logic executed in blade steel instead of serif brass.</p>
+      </div>
+
+      <div class="card">
+        <div class="tile"><svg viewBox="0 0 100 100">
+          <g filter="url(#ds)" transform="translate(50 50) scale(.42) translate(-50 -111)">
+            <g transform="translate(3 3.8)">
+              <use href="#glyphS0" fill="#141414"/>
+              <use href="#glyphS0" fill="#141414" transform="translate(0 61)"/>
+              <use href="#glyphS0" fill="#141414" transform="translate(0 122)"/>
+            </g>
+            <use href="#glyphS0" fill="url(#steel)"/>
+            <use href="#glyphS0" fill="url(#steel)" transform="translate(0 61)"/>
+            <use href="#glyphS0" fill="url(#steel)" transform="translate(0 122)"/>
+            <use href="#glyphS0" filter="url(#brush)" style="mix-blend-mode:overlay"/>
+            <use href="#glyphS0" filter="url(#brush)" style="mix-blend-mode:overlay" transform="translate(0 61)"/>
+            <use href="#glyphS0" filter="url(#brush)" style="mix-blend-mode:overlay" transform="translate(0 122)"/>
+            <path d="M24 80.5L76 80.5M24 141.5L76 141.5" stroke="#000000" stroke-opacity=".4" stroke-width="1.3"/>
+          </g>
+        </svg></div>
+        <div><div class="num">03</div><div class="name">Totem</div></div>
+        <p>Three S&rsquo;s sharing their bars, fused into one column — the bottom of each S is the top of the next. A spine: Sahir, Singh, Sharma, top to base.</p>
+      </div>
+
+      <div class="card">
+        <div class="tile"><svg viewBox="0 0 100 100">
+          <g filter="url(#ds)">
+            <rect x="9" y="31" width="82" height="38" rx="8" fill="#17181a" stroke="#2c2e31" stroke-width=".8"/>
+            <path d="M12 33.5L88 33.5" stroke="#3c3f42" stroke-width=".7"/>
+            <g transform="translate(50 50) scale(.3) translate(-50 -50)">
+              <use href="#glyphS" fill="#0e0f10" transform="translate(-58 0) translate(2.6 3.4)"/>
+              <use href="#glyphS" fill="url(#steel)" transform="translate(-58 0)"/>
+              <use href="#glyphS" fill="#0e0f10" transform="translate(2.6 3.4)"/>
+              <use href="#glyphS" fill="url(#steel)"/>
+              <use href="#glyphS" fill="#0e0f10" transform="translate(58 0) translate(2.6 3.4)"/>
+              <use href="#glyphS" fill="url(#steel)" transform="translate(58 0)"/>
+            </g>
+          </g>
+        </svg></div>
+        <div><div class="num">04</div><div class="name">Marque</div></div>
+        <p>The literal read, done like a car badge — chrome SSS mounted on a gunmetal plinth. What AMG does with three letters on a trunk lid.</p>
+      </div>
+
+      <div class="card">
+        <div class="tile"><svg viewBox="0 0 100 100">
+          <g filter="url(#ds)" transform="translate(0 7) translate(50 50) scale(.72) translate(-50 -50)">
+            <g transform="rotate(-20 16.66 88)">
+              <use href="#glyphS" fill="#3a3c3f"/>
+            </g>
+            <g transform="rotate(-10 16.66 88)">
+              <use href="#glyphS" fill="#0a0b0c" stroke="#0a0b0c" stroke-width="3.5"/>
+              <use href="#glyphS" fill="url(#steelDim)"/>
+            </g>
+            <use href="#glyphS" fill="#0a0b0c" stroke="#0a0b0c" stroke-width="3.5"/>
+            <use href="#glyphS" fill="#141414" transform="translate(2.6 3.4)"/>
+            <use href="#glyphS" fill="url(#steel)"/>
+            <use href="#glyphS" filter="url(#brush)" style="mix-blend-mode:overlay"/>
+          </g>
+        </svg></div>
+        <div><div class="num">05</div><div class="name">Fan</div></div>
+        <p>A hand of three blades fanned from one grip — the lead S in polished steel, two more swung open behind it. Three S&rsquo;s, one flick of the wrist.</p>
+      </div>
+
+      <div class="card">
+        <div class="tile"><svg viewBox="0 0 100 100">
+          <g filter="url(#ds)" transform="translate(50 50) scale(.86) translate(-50 -50)">
+            <use href="#glyphS" fill="#141414" transform="translate(2.4 3)"/>
+            <use href="#glyphS" fill="url(#steel)"/>
+            <use href="#glyphS" filter="url(#brush)" style="mix-blend-mode:overlay"/>
+            <g clip-path="url(#clipS)">
+              <use href="#glyphS" fill="none" stroke="#ffffff" stroke-opacity=".22" stroke-width="1.6" transform="translate(.7 .9) translate(50 50) scale(.76) translate(-50 -50)"/>
+              <use href="#glyphS" fill="none" stroke="#000000" stroke-opacity=".55" stroke-width="1.7" transform="translate(50 50) scale(.76) translate(-50 -50)"/>
+              <use href="#glyphS" fill="none" stroke="#ffffff" stroke-opacity=".22" stroke-width="1.5" transform="translate(.7 .9) translate(50 50) scale(.55) translate(-50 -50)"/>
+              <use href="#glyphS" fill="none" stroke="#000000" stroke-opacity=".55" stroke-width="1.6" transform="translate(50 50) scale(.55) translate(-50 -50)"/>
+            </g>
+            <use href="#glyphS" fill="none" stroke="#ffffff" stroke-opacity=".3" stroke-width=".7"/>
+          </g>
+        </svg></div>
+        <div><div class="num">06</div><div class="name">Relief</div></div>
+        <p>One S machined with two more engraved inside it — count the edges: three S&rsquo;s nested in one piece of metal. The quietest of the six.</p>
+      </div>
+
+    </div>
+  </section>
+
+  <section>
+    <h2>Previous round — v2 · single-S</h2>
     <div class="grid">
 
       <div class="card">
@@ -260,7 +393,7 @@
 
   <footer>
     <span>Sahir Singh Sharma</span>
-    <span>v2 — premium round · next: pick one, render in 3D</span>
+    <span>v3 — SSS round · next: pick one, render in 3D</span>
   </footer>
 
 </div>
