@@ -40,6 +40,8 @@
   }
 
   .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 30px; }
+  .grid.big { grid-template-columns: repeat(auto-fill, minmax(min(420px, 100%), 1fr)); gap: 34px; }
+  .tile canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
   .card { display: flex; flex-direction: column; gap: 14px; }
   .tile {
     position: relative; aspect-ratio: 1; border-radius: 34px;
@@ -128,12 +130,43 @@
 
   <header>
     <div class="kicker">Sahir Singh Sharma</div>
-    <h1>Three S&rsquo;s, drawn with a compass.</h1>
-    <p class="sub">Round four — the Mercedes standard. The angular glyph read as a 5, so it&rsquo;s gone: this S is two perfect circles and nothing else. Smooth silver, thin rings, radial poise — emblems you could put on a hood or a watch dial.</p>
+    <h1>The four, forged.</h1>
+    <p class="sub">Round five — the shortlist rendered for real. Fan II, Rosette, Dynasty and Vertex II as solid extruded metal: brushed PBR steel, studio lighting, beveled edges, and a slow sway so the light moves across the metal. Live 3D — not an illustration.</p>
   </header>
 
   <section>
-    <h2>Logo candidates — v4 · emblem</h2>
+    <h2>The four — v5 · 3D brushed metal</h2>
+    <div class="grid big">
+
+      <div class="card">
+        <div class="tile"><canvas class="r3d" data-mark="fan"></canvas></div>
+        <div><div class="num">01</div><div class="name">Fan II</div></div>
+        <p>Three blades of steel fanned from one grip — the rear two hang back in real depth, the lead S polished bright.</p>
+      </div>
+
+      <div class="card">
+        <div class="tile"><canvas class="r3d" data-mark="rosette"></canvas></div>
+        <div><div class="num">02</div><div class="name">Rosette</div></div>
+        <p>Three S&rsquo;s at 120&deg; stacked in layers inside a machined steel ring — the hood-ornament candidate.</p>
+      </div>
+
+      <div class="card">
+        <div class="tile"><canvas class="r3d" data-mark="dynasty"></canvas></div>
+        <div><div class="num">03</div><div class="name">Dynasty</div></div>
+        <p>The great S in heavy extruded steel, its two heirs floating just above its curves, sealed in the ring.</p>
+      </div>
+
+      <div class="card">
+        <div class="tile"><canvas class="r3d" data-mark="vertex"></canvas></div>
+        <div><div class="num">04</div><div class="name">Vertex II</div></div>
+        <p>Three S&rsquo;s struck from one die and stepped back through space — shadow, gunmetal, polished silver.</p>
+      </div>
+
+    </div>
+  </section>
+
+  <section>
+    <h2>Previous round — v4 · emblem (full set)</h2>
     <div class="grid">
 
       <div class="card">
@@ -505,9 +538,192 @@
 
   <footer>
     <span>Sahir Singh Sharma</span>
-    <span>v4 — emblem round · next: pick one, render in 3D</span>
+    <span>v5 — 3D brushed metal · next: pick the one</span>
   </footer>
 
 </div>
+
+<script type="importmap">
+{"imports":{
+  "three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+  "three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+}}
+</script>
+<script type="module">
+import * as THREE from 'three';
+import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
+
+// ---- the S centerline: two circles, 3/4 arc each, in centered y-up coords ----
+function sPoint(t){
+  if (t <= 0.5) { const a = (t/0.5)*1.5*Math.PI; return [18*Math.cos(a), 18+18*Math.sin(a)]; }
+  const a = Math.PI/2 - ((t-0.5)/0.5)*1.5*Math.PI; return [18*Math.cos(a), -18+18*Math.sin(a)];
+}
+function sOutline(w){
+  const N = 120, eps = 1e-3, hw = w/2, left = [], right = [];
+  const norm = t => {
+    const p1 = sPoint(Math.max(0,t-eps)), p2 = sPoint(Math.min(1,t+eps));
+    const dx = p2[0]-p1[0], dy = p2[1]-p1[1], l = Math.hypot(dx,dy);
+    return [-dy/l, dx/l];
+  };
+  for (let i = 0; i <= N; i++){
+    const t = i/N, p = sPoint(t), n = norm(t);
+    left.push([p[0]+n[0]*hw, p[1]+n[1]*hw]);
+    right.push([p[0]-n[0]*hw, p[1]-n[1]*hw]);
+  }
+  const shape = new THREE.Shape();
+  shape.moveTo(left[0][0], left[0][1]);
+  for (let i = 1; i <= N; i++) shape.lineTo(left[i][0], left[i][1]);
+  const pE = sPoint(1), nE = norm(1), aE = Math.atan2(nE[1], nE[0]);
+  shape.absarc(pE[0], pE[1], hw, aE, aE - Math.PI, true);
+  for (let i = N; i >= 0; i--) shape.lineTo(right[i][0], right[i][1]);
+  const pS = sPoint(0), nS = norm(0), aS = Math.atan2(nS[1], nS[0]) - Math.PI;
+  shape.absarc(pS[0], pS[1], hw, aS, aS - Math.PI, true);
+  return shape;
+}
+function sMesh(w, depth, mat, bevel = 0.9){
+  const geo = new THREE.ExtrudeGeometry(sOutline(w), {
+    depth, bevelEnabled: true, bevelThickness: bevel*1.2, bevelSize: bevel,
+    bevelSegments: 3, curveSegments: 16
+  });
+  geo.translate(0, 0, -depth/2);
+  return new THREE.Mesh(geo, mat);
+}
+function pivot(mesh, px, py, deg, z){
+  const g = new THREE.Group();
+  g.position.set(px, py, z); mesh.position.set(-px, -py, 0);
+  g.add(mesh); g.rotation.z = deg*Math.PI/180;
+  return g;
+}
+
+// ---- brushed texture (procedural horizontal streaks) ----
+function brushedMap(){
+  const c = document.createElement('canvas'); c.width = c.height = 512;
+  const ctx = c.getContext('2d');
+  ctx.fillStyle = '#7d7d7d'; ctx.fillRect(0,0,512,512);
+  for (let i = 0; i < 5200; i++){
+    const y = Math.random()*512, x = Math.random()*512, l = 40+Math.random()*260;
+    const g = Math.floor(85+Math.random()*130);
+    ctx.strokeStyle = `rgba(${g},${g},${g},0.16)`; ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.moveTo(x,y); ctx.lineTo(x+l, y+(Math.random()-.5)*1.5); ctx.stroke();
+  }
+  const t = new THREE.CanvasTexture(c);
+  t.wrapS = t.wrapT = THREE.RepeatWrapping; t.repeat.set(0.02, 0.02);
+  return t;
+}
+function shadowMap(){
+  const c = document.createElement('canvas'); c.width = c.height = 256;
+  const ctx = c.getContext('2d');
+  const g = ctx.createRadialGradient(128,128,10,128,128,120);
+  g.addColorStop(0,'rgba(0,0,0,0.72)'); g.addColorStop(1,'rgba(0,0,0,0)');
+  ctx.fillStyle = g; ctx.fillRect(0,0,256,256);
+  return new THREE.CanvasTexture(c);
+}
+
+const brush = brushedMap(), blob = shadowMap();
+const steel = new THREE.MeshStandardMaterial({ color: 0xe4e6e8, metalness: .92, roughness: .3,  roughnessMap: brush, envMapIntensity: 2.6 });
+const gun   = new THREE.MeshStandardMaterial({ color: 0x96999c, metalness: .92, roughness: .46, roughnessMap: brush, envMapIntensity: 1.9 });
+const dark  = new THREE.MeshStandardMaterial({ color: 0x53565a, metalness: .9, roughness: .58, roughnessMap: brush, envMapIntensity: 1.4 });
+
+// ---- the four compositions (glyph coords: 100-box centered at origin) ----
+function buildFan(){
+  const g = new THREE.Group();
+  g.add(pivot(sMesh(13, 8, dark),  -18, -18, 24, -17));
+  g.add(pivot(sMesh(13, 8, gun),   -18, -18, 12, -8.5));
+  g.add(pivot(sMesh(13, 9, steel), -18, -18, 0, 0));
+  g.scale.setScalar(.8);
+  return g;
+}
+function buildVertex(){
+  const g = new THREE.Group();
+  const b = sMesh(13, 8, dark);  b.position.set(15, 10, -17);
+  const m = sMesh(13, 8, gun);   m.position.set(7.5, 5, -8.5);
+  const f = sMesh(13, 9, steel); f.position.set(0, 0, 0);
+  g.add(b, m, f); g.scale.setScalar(.78);
+  return g;
+}
+function ringPair(g){
+  const r1 = new THREE.Mesh(new THREE.TorusGeometry(41, 1.7, 24, 128), steel);
+  const r2 = new THREE.Mesh(new THREE.TorusGeometry(37.4, .55, 16, 128), dark);
+  r2.position.z = -1; g.add(r1, r2);
+}
+function buildRosette(){
+  const g = new THREE.Group();
+  ringPair(g);
+  for (let i = 0; i < 3; i++){
+    const m = sMesh(4.8, 5, steel, .55);
+    m.scale.setScalar(.62); m.position.set(0, 7, 0);
+    const p = new THREE.Group(); p.add(m);
+    p.rotation.z = -i*2*Math.PI/3; p.position.z = 3 - i*4;
+    g.add(p);
+  }
+  g.scale.setScalar(.94);
+  return g;
+}
+function buildDynasty(){
+  const g = new THREE.Group();
+  ringPair(g);
+  const big = sMesh(15, 9, steel); big.scale.setScalar(.68);
+  g.add(big);
+  for (const y of [12.24, -12.24]){
+    const s = sMesh(14, 18, steel, 1.4);
+    s.scale.setScalar(.163); s.position.set(0, y, 6.5);
+    g.add(s);
+  }
+  g.scale.setScalar(.94);
+  return g;
+}
+const builders = { fan: buildFan, rosette: buildRosette, dynasty: buildDynasty, vertex: buildVertex };
+
+// ---- one scene per canvas ----
+const scenes = [];
+document.querySelectorAll('canvas.r3d').forEach(canvas => {
+  const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+  renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+  renderer.toneMapping = THREE.ACESFilmicToneMapping;
+  renderer.toneMappingExposure = 1.55;
+  // env textures are bound to a WebGL context — each renderer needs its own
+  const pmrem = new THREE.PMREMGenerator(renderer);
+  const scene = new THREE.Scene();
+  scene.environment = pmrem.fromScene(new RoomEnvironment(), .06).texture;
+  const key = new THREE.DirectionalLight(0xffffff, 1.6); key.position.set(60, 90, 110);
+  const rim = new THREE.DirectionalLight(0x9aa0a6, .7); rim.position.set(-80, -40, 60);
+  scene.add(key, rim);
+  const sh = new THREE.Mesh(new THREE.PlaneGeometry(150, 150),
+    new THREE.MeshBasicMaterial({ map: blob, transparent: true, depthWrite: false }));
+  sh.position.set(4, -9, -34); scene.add(sh);
+  const mark = builders[canvas.dataset.mark]();
+  scene.add(mark);
+  const camera = new THREE.PerspectiveCamera(35, 1, 1, 600);
+  camera.position.z = 168;
+  scenes.push({ renderer, scene, camera, mark, canvas });
+});
+
+function resize(){
+  for (const s of scenes){
+    const w = s.canvas.clientWidth || 300, h = s.canvas.clientHeight || 300;
+    s.renderer.setSize(w, h, false);
+    s.camera.aspect = w/h; s.camera.updateProjectionMatrix();
+  }
+}
+addEventListener('resize', resize); resize();
+
+const still = location.search.includes('still');
+function renderAll(t){
+  for (const s of scenes){
+    s.mark.rotation.y = still ? .42 : Math.sin(t*.42)*.5;
+    s.mark.rotation.x = still ? .1 : Math.sin(t*.27)*.14;
+    s.renderer.render(s.scene, s.camera);
+  }
+}
+if (still){
+  renderAll(0);
+} else {
+  const clock = new THREE.Clock();
+  (function loop(){
+    renderAll(clock.getElapsedTime());
+    requestAnimationFrame(loop);
+  })();
+}
+</script>
 </body>
 </html>
