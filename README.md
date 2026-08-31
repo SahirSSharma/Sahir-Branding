@@ -1,5 +1,7 @@
 # Sahir-Branding
 
+**Live site:** https://sahirssharma.github.io/Sahir-Branding/ — 10 static SSS logo candidates + the reference analysis below.
+
 Reference captures of the **Resend** design language — the UI and animated logo work I want my own branding (TritonPlan and future projects) to feel like. This repo is the source-of-truth moodboard: raw captures plus a breakdown of *why* it works, so the aesthetic can be reproduced, not just admired.
 
 ## Asset inventory
@@ -53,4 +55,5 @@ Sampled values from the screenshot:
 ## Notes
 
 - Captures taken 2026-08-31 with CleanShot X (first recording includes the webcam overlay bubble — crop before reusing as reference footage).
-- The dashboard screenshot contains real `tritonplan.com` sending stats; treat this repo as private reference material.
+- The dashboard screenshot contains real `tritonplan.com` sending stats (email volume only, no secrets). The repo is public so GitHub Pages can serve the site.
+- The web copies in `assets/` are cropped/re-encoded: `cube-loop.mp4` has the webcam overlay removed.
